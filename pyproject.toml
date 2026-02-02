@@ -87,6 +87,8 @@ spectre = "spectre.cli.main:app"
 [project.entry-points."spectre.plugins"]
 dns_recon = "spectre.plugins.osint.dns_recon:DNSReconPlugin"
 whois_lookup = "spectre.plugins.osint.whois_lookup:WhoisLookupPlugin"
+subdomain_enum = "spectre.plugins.osint.subdomain_enum:SubdomainEnumPlugin"
+cert_transparency = "spectre.plugins.osint.cert_transparency:CertTransparencyPlugin"
 
 [project.urls]
 Homepage = "https://github.com/spectre-osint/spectre"
