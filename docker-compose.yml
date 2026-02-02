@@ -1,0 +1,134 @@
+# SPECTRE Docker Compose Configuration
+# One-command deployment for the SPECTRE platform
+
+version: "3.9"
+
+services:
+  # ============================================
+  # SPECTRE CLI Service
+  # ============================================
+  spectre:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spectre:latest
+    container_name: spectre
+    restart: unless-stopped
+
+    # Environment configuration
+    environment:
+      # LLM Configuration (user provides API keys)
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+
+      # Threat Intel API Keys (optional)
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY:-}
+      - SHODAN_API_KEY=${SHODAN_API_KEY:-}
+      - GREYNOISE_API_KEY=${GREYNOISE_API_KEY:-}
+      - OTX_API_KEY=${OTX_API_KEY:-}
+
+      # SPECTRE Configuration
+      - SPECTRE_LOG_LEVEL=${SPECTRE_LOG_LEVEL:-INFO}
+      - SPECTRE_DATA=/data
+      - SPECTRE_CONFIG=/config
+
+    # Persistent volumes
+    volumes:
+      - spectre-data:/data
+      - spectre-config:/config
+      # Mount local config file if exists
+      - ./spectre.yaml:/config/spectre.yaml:ro
+
+    # Network configuration
+    networks:
+      - spectre-net
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777,size=100M
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 512M
+
+    # Interactive mode for CLI
+    stdin_open: true
+    tty: true
+
+  # ============================================
+  # SPECTRE Heartbeat Service (Optional)
+  # Runs scheduled monitoring jobs
+  # ============================================
+  spectre-heartbeat:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spectre:latest
+    container_name: spectre-heartbeat
+    restart: unless-stopped
+    profiles:
+      - monitoring  # Only starts with: docker-compose --profile monitoring up
+
+    command: ["heartbeat", "start"]
+
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY:-}
+      - SHODAN_API_KEY=${SHODAN_API_KEY:-}
+      - SPECTRE_LOG_LEVEL=${SPECTRE_LOG_LEVEL:-INFO}
+      - SPECTRE_DATA=/data
+      - SPECTRE_CONFIG=/config
+
+    volumes:
+      - spectre-data:/data
+      - spectre-config:/config
+      - ./spectre.yaml:/config/spectre.yaml:ro
+
+    networks:
+      - spectre-net
+
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777,size=100M
+
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 1G
+
+    depends_on:
+      - spectre
+
+# ============================================
+# Networks
+# ============================================
+networks:
+  spectre-net:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+# ============================================
+# Volumes
+# ============================================
+volumes:
+  spectre-data:
+    driver: local
+    name: spectre-data
+
+  spectre-config:
+    driver: local
+    name: spectre-config

@@ -1,0 +1,144 @@
+# SPECTRE Configuration Example
+# Copy this file to spectre.yaml and configure as needed
+
+# ============================================
+# LLM Configuration
+# ============================================
+llm:
+  # Provider: claude, openai, or ollama
+  provider: claude
+  # Model to use (provider-specific)
+  model: claude-sonnet-4-5-20250929
+  # API key (prefer environment variable)
+  # api_key: ${ANTHROPIC_API_KEY}
+
+  # For Ollama (local LLM)
+  # provider: ollama
+  # model: llama2
+  # api_url: http://localhost:11434
+
+# ============================================
+# Plugin Configuration
+# ============================================
+plugins:
+  # OSINT Plugins
+  dns_recon:
+    enabled: true
+    # Custom DNS servers (optional)
+    # nameservers:
+    #   - 8.8.8.8
+    #   - 1.1.1.1
+
+  whois_lookup:
+    enabled: true
+
+  subdomain_enum:
+    enabled: true
+
+  port_scanner:
+    enabled: false  # Requires nmap
+
+  cert_transparency:
+    enabled: true
+
+  # Threat Intelligence Plugins
+  virustotal:
+    enabled: false  # Requires API key
+    # api_key: ${VIRUSTOTAL_API_KEY}
+
+  shodan:
+    enabled: false  # Requires API key
+    # api_key: ${SHODAN_API_KEY}
+
+  greynoise:
+    enabled: false  # Requires API key
+    # api_key: ${GREYNOISE_API_KEY}
+
+  alienvault_otx:
+    enabled: false  # Requires API key
+    # api_key: ${OTX_API_KEY}
+
+  abuse_ch:
+    enabled: true  # Free, no API key needed
+
+  # Adversary Intelligence Plugins
+  mitre_attack:
+    enabled: true
+    # Refresh interval for ATT&CK data
+    refresh_interval: 7d
+
+  opencti_feed:
+    enabled: false
+    # instance_url: ${OPENCTI_URL}
+    # api_key: ${OPENCTI_API_KEY}
+
+# ============================================
+# Heartbeat / Monitoring Configuration
+# ============================================
+heartbeat:
+  enabled: false
+  # Default check interval
+  default_interval: 6h
+
+  # Example watch configurations
+  # watches:
+  #   - name: "Monitor company domains"
+  #     targets:
+  #       - example.com
+  #       - api.example.com
+  #     conditions:
+  #       - new_subdomains
+  #       - certificate_changes
+  #     interval: 1d
+  #     alert_channel: slack
+
+# ============================================
+# Reporting Configuration
+# ============================================
+reporting:
+  # Default output format: markdown, html, or pdf
+  default_format: markdown
+  # Output directory for generated reports
+  output_dir: ./reports
+  # Include raw data in reports
+  include_raw: false
+
+# ============================================
+# Security Configuration
+# ============================================
+security:
+  # Enable plugin sandboxing (subprocess isolation)
+  sandbox_plugins: true
+  # Maximum concurrent investigations
+  max_concurrent_investigations: 3
+  # Global rate limit (requests per minute)
+  rate_limit_global: 100
+  # Scope locking: restrict to specific domains/IPs
+  # allowed_targets:
+  #   - "*.example.com"
+  #   - "10.0.0.0/8"
+
+# ============================================
+# Logging Configuration
+# ============================================
+logging:
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  level: INFO
+  # Log format: json or console
+  format: console
+  # Log file (optional)
+  # file: ./logs/spectre.log
+
+# ============================================
+# Database Configuration (Future)
+# ============================================
+# database:
+#   # SQLite (default) or Neo4j
+#   type: sqlite
+#   # SQLite path
+#   path: ./data/spectre.db
+#   # Neo4j configuration
+#   # type: neo4j
+#   # uri: bolt://localhost:7687
+#   # user: neo4j
+#   # password: ${NEO4J_PASSWORD}

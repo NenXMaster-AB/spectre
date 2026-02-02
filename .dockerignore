@@ -1,0 +1,67 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+.eggs/
+*.egg-info/
+*.egg
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Testing
+.coverage
+htmlcov/
+.tox/
+
+# Documentation
+docs/_build/
+
+# Build artifacts
+build/
+dist/
+*.whl
+
+# Local configuration (may contain secrets)
+spectre.yaml
+.env
+*.env
+
+# Data and logs
+data/
+logs/
+reports/
+*.log
+*.db
+
+# Docker
+Dockerfile*
+docker-compose*.yml
+.docker/
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+
+# Misc
+*.md
+!README.md
+LICENSE
+Makefile
