@@ -85,10 +85,16 @@ all = [
 spectre = "spectre.cli.main:app"
 
 [project.entry-points."spectre.plugins"]
+# OSINT plugins
 dns_recon = "spectre.plugins.osint.dns_recon:DNSReconPlugin"
 whois_lookup = "spectre.plugins.osint.whois_lookup:WhoisLookupPlugin"
 subdomain_enum = "spectre.plugins.osint.subdomain_enum:SubdomainEnumPlugin"
 cert_transparency = "spectre.plugins.osint.cert_transparency:CertTransparencyPlugin"
+# Threat Intel plugins
+abuse_ch = "spectre.plugins.threat_intel.abuse_ch:AbuseChPlugin"
+virustotal = "spectre.plugins.threat_intel.virustotal:VirusTotalPlugin"
+shodan_lookup = "spectre.plugins.threat_intel.shodan_lookup:ShodanPlugin"
+alienvault_otx = "spectre.plugins.threat_intel.alienvault_otx:AlienVaultOTXPlugin"
 
 [project.urls]
 Homepage = "https://github.com/spectre-osint/spectre"
