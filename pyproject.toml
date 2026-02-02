@@ -83,9 +83,16 @@ chat = [
     "python-telegram-bot>=21.0",
 ]
 
+# Web API and UI backend
+api = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.32.0",
+    "websockets>=14.0",
+]
+
 # All optional dependencies
 all = [
-    "spectre[dev,threat-intel,graph,chat]",
+    "spectre[dev,threat-intel,graph,chat,api]",
 ]
 
 [project.scripts]

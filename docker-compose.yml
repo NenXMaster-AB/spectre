@@ -1,19 +1,21 @@
 # SPECTRE Docker Compose Configuration
 # One-command deployment for the SPECTRE platform
 
-version: "3.9"
-
 services:
   # ============================================
-  # SPECTRE CLI Service
+  # SPECTRE API Service (FastAPI)
   # ============================================
-  spectre:
+  spectre-api:
     build:
       context: .
       dockerfile: Dockerfile
+      target: runtime
     image: spectre:latest
-    container_name: spectre
+    container_name: spectre-api
     restart: unless-stopped
+
+    # Run the FastAPI server
+    command: ["python", "-m", "uvicorn", "spectre.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
     # Environment configuration
     environment:
@@ -36,19 +38,26 @@ services:
     volumes:
       - spectre-data:/data
       - spectre-config:/config
-      # Mount local config file if exists
-      - ./spectre.yaml:/config/spectre.yaml:ro
+
+    # Expose API port internally
+    expose:
+      - "8000"
 
     # Network configuration
     networks:
       - spectre-net
 
+    # Health check
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
     # Security options
     security_opt:
       - no-new-privileges:true
-    read_only: true
-    tmpfs:
-      - /tmp:mode=1777,size=100M
 
     # Resource limits
     deploy:
@@ -60,13 +69,92 @@ services:
           cpus: "0.5"
           memory: 512M
 
-    # Interactive mode for CLI
+  # ============================================
+  # SPECTRE Web UI (React + Nginx)
+  # ============================================
+  spectre-web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    image: spectre-web:latest
+    container_name: spectre-web
+    restart: unless-stopped
+
+    # Expose web UI
+    ports:
+      - "3000:80"
+
+    # Network configuration
+    networks:
+      - spectre-net
+
+    # Wait for API to be ready
+    depends_on:
+      spectre-api:
+        condition: service_healthy
+
+    # Health check
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx:mode=1777
+      - /var/run:mode=1777
+
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+
+  # ============================================
+  # SPECTRE CLI Service (Interactive)
+  # ============================================
+  spectre:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: spectre:latest
+    container_name: spectre-cli
+    profiles:
+      - cli  # Only starts with: docker compose --profile cli up
+
+    # Environment configuration
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+      - VIRUSTOTAL_API_KEY=${VIRUSTOTAL_API_KEY:-}
+      - SHODAN_API_KEY=${SHODAN_API_KEY:-}
+      - SPECTRE_LOG_LEVEL=${SPECTRE_LOG_LEVEL:-INFO}
+      - SPECTRE_DATA=/data
+      - SPECTRE_CONFIG=/config
+
+    volumes:
+      - spectre-data:/data
+      - spectre-config:/config
+
+    networks:
+      - spectre-net
+
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:mode=1777,size=100M
+
     stdin_open: true
     tty: true
 
   # ============================================
   # SPECTRE Heartbeat Service (Optional)
-  # Runs scheduled monitoring jobs
   # ============================================
   spectre-heartbeat:
     build:
@@ -76,7 +164,7 @@ services:
     container_name: spectre-heartbeat
     restart: unless-stopped
     profiles:
-      - monitoring  # Only starts with: docker-compose --profile monitoring up
+      - monitoring  # Only starts with: docker compose --profile monitoring up
 
     command: ["heartbeat", "start"]
 
@@ -91,7 +179,6 @@ services:
     volumes:
       - spectre-data:/data
       - spectre-config:/config
-      - ./spectre.yaml:/config/spectre.yaml:ro
 
     networks:
       - spectre-net
@@ -109,7 +196,7 @@ services:
           memory: 1G
 
     depends_on:
-      - spectre
+      - spectre-api
 
 # ============================================
 # Networks
@@ -117,9 +204,6 @@ services:
 networks:
   spectre-net:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.28.0.0/16
 
 # ============================================
 # Volumes

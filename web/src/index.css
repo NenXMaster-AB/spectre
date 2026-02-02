@@ -1,0 +1,493 @@
+@import "tailwindcss";
+
+/* ============================================
+   SPECTRE THEME - Cold War Intelligence Dossier
+   meets Modern Surveillance Tech
+   ============================================ */
+
+@theme {
+  /* Color Palette */
+  --color-void: #08080c;
+  --color-bunker: #0f0f14;
+  --color-slate: #1a1a22;
+  --color-steel: #2a2a35;
+  --color-paper: #e8e6e3;
+  --color-concrete: #8a8a95;
+  --color-phosphor: #39ff14;
+  --color-amber: #ffb000;
+  --color-blood: #ff2a2a;
+  --color-signal: #ff6b35;
+  --color-radar: #3b82f6;
+
+  /* Typography */
+  --font-display: "Bebas Neue", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-body: "Source Serif 4", serif;
+
+  /* Animations */
+  --animate-pulse-glow: pulse-glow 2s ease-in-out infinite;
+  --animate-scan: scan 8s linear infinite;
+  --animate-declassify: declassify 0.5s ease-out forwards;
+  --animate-radar-ping: radar-ping 1.5s ease-out;
+  --animate-flicker: flicker 0.15s ease-in-out;
+  --animate-breathing: breathing 3s ease-in-out infinite;
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 1;
+    filter: drop-shadow(0 0 2px currentColor);
+  }
+  50% {
+    opacity: 0.8;
+    filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 16px currentColor);
+  }
+}
+
+@keyframes scan {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100vh;
+  }
+}
+
+@keyframes declassify {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes radar-ping {
+  0% {
+    transform: scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes flicker {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@keyframes breathing {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+/* Staggered declassify animation */
+.declassify-stagger > * {
+  animation: declassify 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.declassify-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+.declassify-stagger > *:nth-child(2) { animation-delay: 0.1s; }
+.declassify-stagger > *:nth-child(3) { animation-delay: 0.15s; }
+.declassify-stagger > *:nth-child(4) { animation-delay: 0.2s; }
+.declassify-stagger > *:nth-child(5) { animation-delay: 0.25s; }
+.declassify-stagger > *:nth-child(6) { animation-delay: 0.3s; }
+.declassify-stagger > *:nth-child(7) { animation-delay: 0.35s; }
+.declassify-stagger > *:nth-child(8) { animation-delay: 0.4s; }
+.declassify-stagger > *:nth-child(9) { animation-delay: 0.45s; }
+.declassify-stagger > *:nth-child(10) { animation-delay: 0.5s; }
+
+/* ============================================
+   CRT & SCAN LINE EFFECTS
+   ============================================ */
+
+.scan-lines {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.1) 2px,
+    rgba(0, 0, 0, 0.1) 4px
+  );
+  z-index: 9999;
+  animation: scan 8s linear infinite;
+}
+
+.scan-lines-static {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.08) 2px,
+    rgba(0, 0, 0, 0.08) 4px
+  );
+  z-index: 9999;
+}
+
+/* ============================================
+   GLOW EFFECTS
+   ============================================ */
+
+.glow-phosphor {
+  text-shadow:
+    0 0 5px rgba(57, 255, 20, 0.8),
+    0 0 10px rgba(57, 255, 20, 0.6),
+    0 0 20px rgba(57, 255, 20, 0.4);
+}
+
+.glow-phosphor-subtle {
+  text-shadow:
+    0 0 3px rgba(57, 255, 20, 0.5),
+    0 0 6px rgba(57, 255, 20, 0.3);
+}
+
+.glow-amber {
+  text-shadow:
+    0 0 5px rgba(255, 176, 0, 0.8),
+    0 0 10px rgba(255, 176, 0, 0.6),
+    0 0 20px rgba(255, 176, 0, 0.4);
+}
+
+.glow-amber-subtle {
+  text-shadow:
+    0 0 3px rgba(255, 176, 0, 0.5),
+    0 0 6px rgba(255, 176, 0, 0.3);
+}
+
+.glow-blood {
+  text-shadow:
+    0 0 5px rgba(255, 42, 42, 0.8),
+    0 0 10px rgba(255, 42, 42, 0.6),
+    0 0 20px rgba(255, 42, 42, 0.4);
+}
+
+/* Box glow variants */
+.box-glow-phosphor {
+  box-shadow:
+    0 0 5px rgba(57, 255, 20, 0.3),
+    0 0 10px rgba(57, 255, 20, 0.2),
+    inset 0 0 5px rgba(57, 255, 20, 0.1);
+}
+
+.box-glow-amber {
+  box-shadow:
+    0 0 5px rgba(255, 176, 0, 0.3),
+    0 0 10px rgba(255, 176, 0, 0.2),
+    inset 0 0 5px rgba(255, 176, 0, 0.1);
+}
+
+/* ============================================
+   GRAIN & VIGNETTE OVERLAYS
+   ============================================ */
+
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image: url('/noise.svg');
+  background-repeat: repeat;
+  background-size: 200px 200px;
+  opacity: 0.03;
+  z-index: 9998;
+}
+
+.vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+  z-index: 9997;
+}
+
+/* ============================================
+   CLASSIFIED STAMP STYLES
+   ============================================ */
+
+.classified-stamp {
+  position: absolute;
+  font-family: "Bebas Neue", sans-serif;
+  font-size: 1.5rem;
+  color: rgba(255, 42, 42, 0.7);
+  border: 3px solid currentColor;
+  padding: 0.15rem 0.75rem;
+  transform: rotate(-12deg);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  pointer-events: none;
+  user-select: none;
+}
+
+.classified-stamp-large {
+  font-size: 2.5rem;
+  padding: 0.25rem 1rem;
+  border-width: 4px;
+}
+
+.stamp-top-secret {
+  color: rgba(255, 42, 42, 0.6);
+}
+
+.stamp-eyes-only {
+  color: rgba(255, 176, 0, 0.6);
+}
+
+.stamp-confidential {
+  color: rgba(59, 130, 246, 0.6);
+}
+
+/* ============================================
+   CUSTOM SCROLLBAR
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-bunker);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-steel);
+  border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-phosphor);
+}
+
+::-webkit-scrollbar-corner {
+  background: var(--color-bunker);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-steel) var(--color-bunker);
+}
+
+/* ============================================
+   DOSSIER & DOCUMENT STYLES
+   ============================================ */
+
+.dossier-border {
+  border: 1px solid var(--color-steel);
+  position: relative;
+}
+
+.dossier-border::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-phosphor) 20%,
+    var(--color-phosphor) 80%,
+    transparent
+  );
+  opacity: 0.5;
+}
+
+.folder-tab {
+  position: relative;
+  background: var(--color-bunker);
+  border: 1px solid var(--color-steel);
+  border-bottom: none;
+  padding: 0.5rem 1.5rem;
+  margin-bottom: -1px;
+  clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 100%, 0 100%);
+}
+
+.folder-tab.active {
+  background: var(--color-slate);
+  border-color: var(--color-phosphor);
+}
+
+/* ============================================
+   TERMINAL & CODE BLOCKS
+   ============================================ */
+
+.terminal-block {
+  background: var(--color-void);
+  border: 1px solid var(--color-steel);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  padding: 1rem;
+  overflow-x: auto;
+}
+
+.terminal-block::before {
+  content: '> ';
+  color: var(--color-phosphor);
+}
+
+.terminal-prompt {
+  color: var(--color-phosphor);
+}
+
+.terminal-output {
+  color: var(--color-concrete);
+}
+
+.terminal-error {
+  color: var(--color-blood);
+}
+
+.terminal-warning {
+  color: var(--color-amber);
+}
+
+/* ============================================
+   TIMESTAMP (CCTV STYLE)
+   ============================================ */
+
+.timestamp-cctv {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.75rem;
+  color: var(--color-concrete);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.timestamp-cctv::before {
+  content: '◉ ';
+  color: var(--color-blood);
+  animation: flicker 2s ease-in-out infinite;
+}
+
+.timestamp-cctv.recording::before {
+  content: '● REC ';
+  color: var(--color-blood);
+}
+
+/* ============================================
+   THREAT LEVEL INDICATORS
+   ============================================ */
+
+.threat-critical {
+  color: var(--color-blood);
+  border-color: var(--color-blood);
+}
+
+.threat-high {
+  color: var(--color-signal);
+  border-color: var(--color-signal);
+}
+
+.threat-medium {
+  color: var(--color-amber);
+  border-color: var(--color-amber);
+}
+
+.threat-low {
+  color: var(--color-phosphor);
+  border-color: var(--color-phosphor);
+}
+
+.threat-info {
+  color: var(--color-radar);
+  border-color: var(--color-radar);
+}
+
+/* ============================================
+   UTILITY CLASSES
+   ============================================ */
+
+.text-gradient-phosphor {
+  background: linear-gradient(135deg, var(--color-phosphor), var(--color-radar));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-glow-phosphor {
+  border-color: var(--color-phosphor);
+  box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+}
+
+.bg-grid {
+  background-image:
+    linear-gradient(var(--color-steel) 1px, transparent 1px),
+    linear-gradient(90deg, var(--color-steel) 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: -1px -1px;
+}
+
+.bg-grid-subtle {
+  background-image:
+    linear-gradient(rgba(42, 42, 53, 0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(42, 42, 53, 0.3) 1px, transparent 1px);
+  background-size: 40px 40px;
+  background-position: -1px -1px;
+}
+
+/* Selection styling */
+::selection {
+  background: var(--color-phosphor);
+  color: var(--color-void);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid var(--color-phosphor);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   BASE RESETS
+   ============================================ */
+
+html {
+  background-color: var(--color-void);
+}
+
+body {
+  background-color: var(--color-void);
+  color: var(--color-paper);
+  font-family: "Source Serif 4", serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Bebas Neue", sans-serif;
+  letter-spacing: 0.05em;
+}
+
+code, pre, .mono {
+  font-family: "JetBrains Mono", monospace;
+}

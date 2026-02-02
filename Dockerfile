@@ -24,11 +24,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN python -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Install Python dependencies
-COPY pyproject.toml ./
+# Copy source code and install package with API extras
+COPY pyproject.toml README.md ./
+COPY spectre/ ./spectre/
 RUN pip install --upgrade pip && \
-    pip install build && \
-    pip install .
+    pip install ".[api]"
 
 # ============================================
 # Stage 2: Runtime
@@ -75,9 +75,6 @@ RUN mkdir -p /app /data /config && \
 
 WORKDIR /app
 
-# Copy application code
-COPY --chown=spectre:spectre spectre/ ./spectre/
-
 # Set up volumes for persistent data
 VOLUME ["/data", "/config"]
 
@@ -86,8 +83,7 @@ USER spectre
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD spectre plugins health || exit 1
+    CMD python -c "import spectre" || exit 1
 
-# Default command
-ENTRYPOINT ["spectre"]
-CMD ["--help"]
+# Default command (overridden by docker-compose for API)
+CMD ["python", "-c", "import spectre; print('SPECTRE ready')"]
