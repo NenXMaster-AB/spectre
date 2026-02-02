@@ -76,9 +76,16 @@ graph = [
     "networkx>=3.2.0",
 ]
 
+# Chat platform integrations
+chat = [
+    "slack_sdk>=3.27.0",
+    "discord.py>=2.3.0",
+    "python-telegram-bot>=21.0",
+]
+
 # All optional dependencies
 all = [
-    "spectre[dev,threat-intel,graph]",
+    "spectre[dev,threat-intel,graph,chat]",
 ]
 
 [project.scripts]
