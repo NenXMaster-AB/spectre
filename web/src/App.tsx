@@ -10,6 +10,7 @@ import { AppLayout } from './components/layout';
 import {
   Dashboard,
   Investigations,
+  InvestigationDetail,
   Entities,
   ThreatActors,
   Reports,
@@ -35,6 +36,7 @@ function App() {
           <Route element={<AppLayout />}>
             <Route path="/" element={<Dashboard />} />
             <Route path="/investigations" element={<Investigations />} />
+            <Route path="/investigations/:id" element={<InvestigationDetail />} />
             <Route path="/entities" element={<Entities />} />
             <Route path="/threat-actors" element={<ThreatActors />} />
             <Route path="/reports" element={<Reports />} />

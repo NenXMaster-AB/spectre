@@ -9,7 +9,7 @@
 
 import { AlertTriangle, AlertCircle, Info, CheckCircle, Skull } from 'lucide-react';
 
-export type ThreatLevel = 'critical' | 'high' | 'medium' | 'low' | 'info' | 'clean';
+export type ThreatLevel = 'critical' | 'high' | 'medium' | 'low' | 'info' | 'clean' | 'unknown';
 
 interface ThreatBadgeProps {
   level: ThreatLevel;
@@ -63,6 +63,12 @@ const levelConfig: Record<
     color: 'text-phosphor',
     bgColor: 'bg-phosphor/20',
     icon: <CheckCircle className="h-3.5 w-3.5" />,
+  },
+  unknown: {
+    label: 'UNKNOWN',
+    color: 'text-concrete',
+    bgColor: 'bg-concrete/20',
+    icon: <Info className="h-3.5 w-3.5" />,
   },
 };
 
