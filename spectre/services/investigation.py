@@ -446,13 +446,12 @@ class InvestigationService:
             )
 
             try:
-                plugin_class = self.registry.get(plugin_name)
-                if not plugin_class:
+                if not self.registry.has_plugin(plugin_name):
                     logger.warning("Plugin not found", plugin=plugin_name)
                     investigation.plugins_failed += 1
                     continue
 
-                plugin = plugin_class()
+                plugin = self.registry.get_plugin(plugin_name)
                 result = await plugin.execute(
                     {"type": investigation.target.type.value, "value": investigation.target.value},
                     plugin_config,
@@ -604,15 +603,8 @@ class InvestigationService:
 
     def _get_plugins_for_entity(self, entity_type: EntityType) -> list[str]:
         """Get applicable plugins for an entity type."""
-        plugins = []
-        for name, plugin_class in self.registry.plugins.items():
-            try:
-                plugin = plugin_class()
-                if entity_type in plugin.input_types:
-                    plugins.append(name)
-            except Exception:
-                continue
-        return plugins
+        applicable_plugins = self.registry.get_plugins_for_entity(entity_type)
+        return [p.name for p in applicable_plugins]
 
     def _assess_finding_threat(self, finding: Finding) -> str:
         """Assess threat level of a finding."""
