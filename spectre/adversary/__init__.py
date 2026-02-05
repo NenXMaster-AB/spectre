@@ -11,11 +11,28 @@ Provides:
 - TTP analysis and timeline tracking
 """
 
-# TODO: These will be implemented in Phase 6
-# from spectre.adversary.profiler import ThreatActorProfiler
-# from spectre.adversary.attributor import AttributionEngine
-# from spectre.adversary.campaign_tracker import CampaignTracker
+from spectre.adversary.campaign_tracker import (
+    Campaign,
+    CampaignStatus,
+    CampaignSource,
+    CampaignIOC,
+    CampaignTTP,
+    CampaignUpdate,
+    CampaignTracker,
+    get_campaign_tracker,
+)
+
+# TODO: Remaining Phase 6 items
 # from spectre.adversary.campaign_detector import CampaignDetector
 # from spectre.adversary.ttp_timeline import TTPTimeline
 
-__all__: list[str] = []
+__all__ = [
+    "Campaign",
+    "CampaignStatus",
+    "CampaignSource",
+    "CampaignIOC",
+    "CampaignTTP",
+    "CampaignUpdate",
+    "CampaignTracker",
+    "get_campaign_tracker",
+]

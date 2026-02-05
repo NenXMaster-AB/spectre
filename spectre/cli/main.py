@@ -100,10 +100,12 @@ def main(
 from spectre.cli.investigate import app as investigate_app
 from spectre.cli.plugins_cmd import app as plugins_app
 from spectre.cli.monitor import app as monitor_app
+from spectre.cli.campaign import app as campaign_app
 
 app.add_typer(investigate_app, name="investigate", help="Run OSINT investigations")
 app.add_typer(plugins_app, name="plugins", help="Manage plugins")
 app.add_typer(monitor_app, name="watch", help="Continuous monitoring with proactive alerts")
+app.add_typer(campaign_app, name="campaign", help="Track and monitor threat campaigns")
 
 
 # Quick shortcuts for common commands
