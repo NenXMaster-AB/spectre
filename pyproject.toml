@@ -90,9 +90,14 @@ api = [
     "websockets>=14.0",
 ]
 
+# Heartbeat and monitoring
+heartbeat = [
+    "apscheduler>=3.10.0",
+]
+
 # All optional dependencies
 all = [
-    "spectre[dev,threat-intel,graph,chat,api]",
+    "spectre[dev,threat-intel,graph,chat,api,heartbeat]",
 ]
 
 [project.scripts]
