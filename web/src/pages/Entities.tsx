@@ -9,8 +9,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Card, Button } from '../components/common';
 import { SpiderWebGraph, type GraphNode, type GraphLink } from '../components/graph';
 import {
-  Database, Search, Filter, Globe, Network, Mail,
-  Fingerprint, Shield, X, ExternalLink,
+  Database, Search, Globe, Network, Mail,
+  Fingerprint, Shield, X,
 } from 'lucide-react';
 import { api } from '../api/client';
 

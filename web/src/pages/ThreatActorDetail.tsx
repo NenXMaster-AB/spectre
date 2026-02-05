@@ -6,10 +6,10 @@
 
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { Card, ThreatBadge, ClassifiedStamp } from '../components/common';
+import { Card } from '../components/common';
 import {
-  ArrowLeft, Shield, MapPin, Crosshair, Wrench,
-  Target, Globe, AlertTriangle, BookOpen,
+  ArrowLeft, Shield, MapPin, Wrench,
+  Target, Globe, AlertTriangle,
 } from 'lucide-react';
 import { api } from '../api/client';
 
@@ -35,14 +35,6 @@ const COUNTRY_NAMES: Record<string, string> = {
   IR: 'Iran',
   US: 'United States',
 };
-
-// MITRE ATT&CK tactic ordering
-const TACTICS = [
-  'reconnaissance', 'resource-development', 'initial-access', 'execution',
-  'persistence', 'privilege-escalation', 'defense-evasion', 'credential-access',
-  'discovery', 'lateral-movement', 'collection', 'command-and-control',
-  'exfiltration', 'impact',
-];
 
 export function ThreatActorDetail() {
   const { id } = useParams<{ id: string }>();

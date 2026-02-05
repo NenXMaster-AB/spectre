@@ -9,7 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { Card, Button, ThreatBadge, type ThreatLevel } from '../components/common';
 import {
-  FileText, Download, Eye, AlertTriangle,
+  FileText, Eye, AlertTriangle,
   Clock, Target, ChevronDown, ChevronUp,
 } from 'lucide-react';
 import { api } from '../api/client';
