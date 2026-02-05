@@ -22,11 +22,27 @@ from spectre.adversary.campaign_tracker import (
     get_campaign_tracker,
 )
 
-# TODO: Remaining Phase 6 items
-# from spectre.adversary.campaign_detector import CampaignDetector
-# from spectre.adversary.ttp_timeline import TTPTimeline
+from spectre.adversary.campaign_detector import (
+    CampaignDetector,
+    ClusterSignal,
+    ClusterEvidence,
+    DetectedCluster,
+    InvestigationFindings,
+    get_campaign_detector,
+)
+from spectre.adversary.ttp_timeline import (
+    TTPTimeline,
+    TTPObservation,
+    TTPChange,
+    TTPChangeType,
+    TTPProfile,
+    TTPComparison,
+    TimelineEvent,
+    get_ttp_timeline,
+)
 
 __all__ = [
+    # Campaign Tracker
     "Campaign",
     "CampaignStatus",
     "CampaignSource",
@@ -35,4 +51,20 @@ __all__ = [
     "CampaignUpdate",
     "CampaignTracker",
     "get_campaign_tracker",
+    # Campaign Detector
+    "CampaignDetector",
+    "ClusterSignal",
+    "ClusterEvidence",
+    "DetectedCluster",
+    "InvestigationFindings",
+    "get_campaign_detector",
+    # TTP Timeline
+    "TTPTimeline",
+    "TTPObservation",
+    "TTPChange",
+    "TTPChangeType",
+    "TTPProfile",
+    "TTPComparison",
+    "TimelineEvent",
+    "get_ttp_timeline",
 ]

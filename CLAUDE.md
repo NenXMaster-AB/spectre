@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 SPECTRE (Security Platform for Enrichment, Collection, Threat Research & Evaluation) is an open-source, self-hosted, agentic intelligence platform that combines OSINT research automation with continuous cyber threat intelligence monitoring.
 
-**Current Status:** Active development - Phases 1-5.2 complete, Phase 6 in progress (heartbeat engine done, campaign tracking pending).
+**Current Status:** Active development - Phases 1-6 complete, Phase 5.3-5.6 (Web UI polish) and Phase 7 (Hardening & Release) pending.
 
 ### Core Thesis
 
@@ -483,19 +483,16 @@ security:
 - **Known Issue**: WebSocket real-time updates need debugging (UI doesn't auto-update)
 - **Not Yet Implemented**: Phase 5.3-5.6 (Entity graph visualization, Threat actor dossiers, Reports UI, Docker polish)
 
-### Phase 6: Heartbeat, Monitoring & Campaign Detection ← IN PROGRESS
-**Done:**
+### Phase 6: Heartbeat, Monitoring & Campaign Detection ✅ COMPLETE
 - APScheduler-based scheduler (`spectre/heartbeat/scheduler.py`)
 - Watch models, store, executor (`spectre/heartbeat/models.py`, `store.py`, `watchers.py`)
 - Diff detection (`spectre/heartbeat/diff.py`)
 - Alert routing to CLI/Slack/Discord/Telegram (`spectre/heartbeat/alerts.py`)
 - CLI commands: `spectre watch create|list|show|run|pause|resume|delete|start-daemon`
-
-**Pending:**
-- Campaign tracker (`spectre/adversary/campaign_tracker.py`)
-- Campaign detector (`spectre/adversary/campaign_detector.py`)
-- TTP timeline analysis (`spectre/adversary/ttp_timeline.py`)
-- CLI commands: `spectre campaign`
+- Campaign tracker (`spectre/adversary/campaign_tracker.py`) - Campaign lifecycle tracking with IOC indexing
+- Campaign detector (`spectre/adversary/campaign_detector.py`) - AI-powered clustering for novel campaign detection
+- TTP timeline analysis (`spectre/adversary/ttp_timeline.py`) - Temporal TTP tracking and evolution analysis
+- CLI commands: `spectre campaign list|show|track|untrack|iocs|search`
 
 ### Phase 7: Hardening & Release
 - Security hardening: sandboxing, input sanitization, secrets
