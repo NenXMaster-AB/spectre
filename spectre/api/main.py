@@ -6,7 +6,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from spectre.api.config import settings
-from spectre.api.routers import system_router, plugins_router, investigations_router
+from spectre.api.routers import (
+    system_router,
+    plugins_router,
+    investigations_router,
+    entities_router,
+    threat_actors_router,
+    reports_router,
+)
 from spectre.api.websocket import ConnectionManager
 
 
@@ -49,6 +56,9 @@ def create_app() -> FastAPI:
     app.include_router(system_router, prefix=settings.api_prefix, tags=["System"])
     app.include_router(plugins_router, prefix=settings.api_prefix, tags=["Plugins"])
     app.include_router(investigations_router, prefix=settings.api_prefix, tags=["Investigations"])
+    app.include_router(entities_router, prefix=settings.api_prefix, tags=["Entities"])
+    app.include_router(threat_actors_router, prefix=settings.api_prefix, tags=["Threat Actors"])
+    app.include_router(reports_router, prefix=settings.api_prefix, tags=["Reports"])
 
     return app
 

@@ -13,6 +13,7 @@ import {
   InvestigationDetail,
   Entities,
   ThreatActors,
+  ThreatActorDetail,
   Reports,
   Plugins,
   Settings,
@@ -39,6 +40,7 @@ function App() {
             <Route path="/investigations/:id" element={<InvestigationDetail />} />
             <Route path="/entities" element={<Entities />} />
             <Route path="/threat-actors" element={<ThreatActors />} />
+            <Route path="/threat-actors/:id" element={<ThreatActorDetail />} />
             <Route path="/reports" element={<Reports />} />
             <Route path="/plugins" element={<Plugins />} />
             <Route path="/settings" element={<Settings />} />

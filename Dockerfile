@@ -28,7 +28,7 @@ ENV PATH="/opt/venv/bin:$PATH"
 COPY pyproject.toml README.md ./
 COPY spectre/ ./spectre/
 RUN pip install --upgrade pip && \
-    pip install ".[api]"
+    pip install ".[api,heartbeat]"
 
 # ============================================
 # Stage 2: Runtime
